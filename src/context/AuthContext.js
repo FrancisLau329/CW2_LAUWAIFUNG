@@ -34,14 +34,14 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (userData) => {
     try {
-      // 生成token
+
       const token = `token_${Date.now()}_${Math.random()}`;
       
-      // 保存到AsyncStorage
+
       await AsyncStorage.setItem('userToken', token);
       await AsyncStorage.setItem('userData', JSON.stringify(userData));
       
-      // 更新狀態 - 這將觸發App.js重新渲染
+
       setUser(userData);
       setIsAuthenticated(true);
       
@@ -55,11 +55,11 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      // 清除AsyncStorage
+
       await AsyncStorage.removeItem('userToken');
       await AsyncStorage.removeItem('userData');
       
-      // 更新狀態
+
       setUser(null);
       setIsAuthenticated(false);
       
