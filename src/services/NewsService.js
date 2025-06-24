@@ -2,15 +2,15 @@ import axios from 'axios';
 
 class NewsService {
   constructor() {
-    // Use free NewsAPI.org API Key
-    this.API_KEY = '05d3f63315f644e3b0ddfa581dfac670';
+   
+    this.API_KEY = '';
     this.BASE_URL = 'https://newsapi.org/v2';
   }
 
-  // Get top news by country
+
   async getTopHeadlines(country = 'us', category = 'general') {
     try {
-      // Check API key
+     
       if (!this.API_KEY || this.API_KEY === 'YOUR_NEWS_API_KEY_HERE') {
         console.warn('📰 NewsAPI key not set, using mock data');
         return this.getMockNews();
@@ -26,7 +26,7 @@ class NewsService {
       });
 
       const articles = response.data.articles;
-      return this.processNewsData(articles, false); // Mark as non-local news
+      return this.processNewsData(articles, false); 
     } catch (error) {
       console.error('📰 Failed to get news:', error.response?.status, error.response?.data?.message);
       
@@ -37,12 +37,12 @@ class NewsService {
         console.warn('📊 NewsAPI quota exhausted, try again later today');
       }
       
-      // Return mock data to ensure app continues working
+    
       return this.getMockNews();
     }
   }
 
-  // Enhanced: Get headlines by category and popularity
+
   async getTopHeadlinesAdvanced(options = {}) {
     try {
       if (!this.API_KEY || this.API_KEY === 'YOUR_NEWS_API_KEY_HERE') {
@@ -56,8 +56,8 @@ class NewsService {
         params: {
           country: options.country || 'us',
           category: options.category || 'general',
-          sources: options.sources, // Can specify news sources
-          q: options.query, // Can add keyword search
+          sources: options.sources, 
+          q: options.query, 
           apiKey: this.API_KEY,
           pageSize: options.pageSize || 20
         }
@@ -79,7 +79,7 @@ class NewsService {
     }
   }
 
-  // Get local news (based on location)
+  
   async getLocalNews(location) {
     try {
       // Check API key
@@ -102,14 +102,14 @@ class NewsService {
       });
 
       const articles = response.data.articles;
-      return this.processNewsData(articles, true); // Mark as local news
+      return this.processNewsData(articles, true);
     } catch (error) {
       console.error('📰 Failed to get local news:', error.response?.status, error.response?.data?.message);
       return this.getMockLocalNews(location);
     }
   }
 
-  // Enhanced: Get local news with date range and sorting functionality
+ 
   async getLocalNewsAdvanced(location, options = {}) {
     try {
       if (!this.API_KEY || this.API_KEY === 'YOUR_NEWS_API_KEY_HERE') {
@@ -132,13 +132,13 @@ class NewsService {
       
       const response = await axios.get(`${this.BASE_URL}/everything`, {
         params: {
-          q: `"${query}" OR "${query} news" OR "${query} local"`, // More precise search
-          from: fromDateString, // Limit to last 7 days
-          sortBy: options.sortBy || 'publishedAt', // Customizable sorting
+          q: `"${query}" OR "${query} news" OR "${query} local"`, 
+          from: fromDateString, 
+          sortBy: options.sortBy || 'publishedAt', 
           language: 'en',
           apiKey: this.API_KEY,
           pageSize: options.pageSize || 10,
-          domains: options.localDomains || this.getLocalNewsDomains(location) // Local news domains
+          domains: options.localDomains || this.getLocalNewsDomains(location) 
         }
       });
 
@@ -151,7 +151,7 @@ class NewsService {
     }
   }
 
-  // Get local news domains based on location
+  
   getLocalNewsDomains(location) {
     const city = location?.address?.city?.toLowerCase();
     const country = location?.address?.country?.toLowerCase();
@@ -175,7 +175,7 @@ class NewsService {
     return 'reuters.com,bbc.com,cnn.com,associated-press.com';
   }
 
-  // Search news by topic (using everything endpoint)
+ 
   async searchNewsByTopic(topic, options = {}) {
     try {
       if (!this.API_KEY || this.API_KEY === 'YOUR_NEWS_API_KEY_HERE') {
@@ -183,7 +183,7 @@ class NewsService {
         return this.getMockNewsByTopic(topic);
       }
 
-      // Set date range (default last 30 days)
+     
       const fromDate = new Date();
       fromDate.setDate(fromDate.getDate() - (options.daysBack || 30));
       const fromDateString = fromDate.toISOString().split('T')[0];
@@ -198,10 +198,10 @@ class NewsService {
         params: {
           q: topic,
           from: fromDateString,
-          sortBy: options.sortBy || 'popularity', // popularity, publishedAt, relevancy
+          sortBy: options.sortBy || 'popularity', 
           language: options.language || 'en',
-          domains: options.domains, // Can limit to specific domains
-          excludeDomains: options.excludeDomains, // Can exclude specific domains
+          domains: options.domains, 
+          excludeDomains: options.excludeDomains, 
           apiKey: this.API_KEY,
           pageSize: options.pageSize || 15
         }
@@ -216,7 +216,6 @@ class NewsService {
     }
   }
 
-  // Get tech news (for specialized tech vocabulary learning)
   async getTechNewsForLearning() {
     return this.searchNewsByTopic('technology OR AI OR "artificial intelligence" OR startup OR innovation', {
       sortBy: 'popularity',
@@ -226,7 +225,6 @@ class NewsService {
     });
   }
 
-  // Get business news (for specialized business vocabulary learning)
   async getBusinessNewsForLearning() {
     return this.searchNewsByTopic('business OR economy OR market OR finance OR investment', {
       sortBy: 'popularity',
@@ -236,7 +234,6 @@ class NewsService {
     });
   }
 
-  // Get environment news (for specialized environment vocabulary learning)
   async getEnvironmentNewsForLearning() {
     return this.searchNewsByTopic('climate OR environment OR sustainability OR "renewable energy" OR pollution', {
       sortBy: 'popularity',
@@ -246,7 +243,7 @@ class NewsService {
     });
   }
   
-  // Process news data
+
   processNewsData(articles, isLocal = false) {
     return articles
       .filter(article => article.title && article.description)
@@ -259,21 +256,20 @@ class NewsService {
         publishedAt: new Date(article.publishedAt),
         source: article.source.name,
         isLocal: isLocal, // Local news identifier
-        category: this.categorizeNews(article.title, article.description), // Auto categorization
-        vocabulary: this.extractAdvancedVocabulary(article), // Enhanced vocabulary extraction
-        keyWords: this.extractKeyWords(article.title + ' ' + article.description), // Keywords
+        category: this.categorizeNews(article.title, article.description), 
+        vocabulary: this.extractAdvancedVocabulary(article),
+        keyWords: this.extractKeyWords(article.title + ' ' + article.description), 
         keyPhrases: this.extractKeyPhrases(article)
       }));
   }
 
-  // Enhanced: Advanced vocabulary extraction
   extractAdvancedVocabulary(article) {
     const text = `${article.title} ${article.description}`.toLowerCase();
     const vocabulary = [];
 
-    // Extended news vocabulary database
+
     const newsVocabulary = {
-      // Political vocabulary
+  
       'government': {
         chinese: '政府',
         category: 'Politics',
