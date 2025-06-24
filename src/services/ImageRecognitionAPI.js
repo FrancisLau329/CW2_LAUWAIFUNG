@@ -4,19 +4,19 @@ import DictionaryService from './DictionaryService';
 
 class ImageRecognitionAPI {
   constructor() {
-    // Use your real Imagga API credentials
-    this.API_KEY = 'acc_a4f47b919fb9fdf';
-    this.API_SECRET = '85f753fd7fd2ce2be9bbcdee6ace7391';
+  
+    this.API_KEY = '';
+    this.API_SECRET = '';
     this.BASE_URL = 'https://api.imagga.com/v2';
     
-    // Pre-encoded Authorization header
+ 
     this.AUTH_HEADER = 'Basic YWNjX2E0ZjQ3YjkxOWZiOWZkZjo4NWY3NTNmZDdmZDJjZTJiZTliYmNkZWU2YWNlNzM5MQ==';
     
-    // Initialize dictionary service
+
     this.dictionary = new DictionaryService();
   }
 
-  // Convert image to base64
+  
   async imageToBase64(imageUri) {
     try {
       const fileInfo = await FileSystem.getInfoAsync(imageUri);
@@ -71,7 +71,6 @@ class ImageRecognitionAPI {
     }
   }
 
-  // Call Imagga API for image recognition (using image URL)
   async recognizeImageByUrl(imageUrl) {
     try {
       console.log('Recognizing image using URL:', imageUrl);
@@ -99,7 +98,7 @@ class ImageRecognitionAPI {
     }
   }
 
-  // Call Imagga API for image recognition (using base64)
+
   async recognizeImageByBase64(imageUri) {
     try {
       console.log('Recognizing image using base64:', imageUri);
@@ -159,7 +158,6 @@ class ImageRecognitionAPI {
     }
   }
 
-  // Process API response and convert to our format
   processAPIResponse(tags, imageUri) {
     console.log('Processing API response, tag count:', tags.length);
     
@@ -167,14 +165,12 @@ class ImageRecognitionAPI {
       throw new Error('No objects recognized');
     }
 
-    // Get the tag with highest confidence
     const bestTag = tags[0];
     const tagName = bestTag.tag.en;
     const confidence = bestTag.confidence / 100;
 
     console.log('Best recognition result:', tagName, 'confidence:', confidence);
 
-    // Get top 5 tags for display
     const topTags = tags.slice(0, 5).map(tag => ({
       name: tag.tag.en,
       confidence: Math.round(tag.confidence)
@@ -238,12 +234,11 @@ class ImageRecognitionAPI {
     }
   }
 
-  // Capitalize first letter of string
   capitalizeFirst(str) {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   }
 
-  // Test API connection
+
   async testConnection() {
     try {
       console.log('Testing API connection...');
