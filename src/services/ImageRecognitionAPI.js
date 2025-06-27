@@ -5,8 +5,8 @@ import DictionaryService from './DictionaryService';
 class ImageRecognitionAPI {
   constructor() {
   
-    this.API_KEY = '';
-    this.API_SECRET = '';
+    this.API_KEY = 'acc_a4f47b919fb9fdf';
+    this.API_SECRET = '85f753fd7fd2ce2be9bbcdee6ace7391';
     this.BASE_URL = 'https://api.imagga.com/v2';
     
  
