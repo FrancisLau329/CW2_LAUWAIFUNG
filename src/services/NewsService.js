@@ -3,7 +3,7 @@ import axios from 'axios';
 class NewsService {
   constructor() {
    
-    this.API_KEY = '';
+    this.API_KEY = '05d3f63315f644e3b0ddfa581dfac670';
     this.BASE_URL = 'https://newsapi.org/v2';
   }
 
